@@ -135,6 +135,12 @@ const Q = [
  {t:"Lozinke", q:"Koja je od ovih lozinki najjača?",
   o:["Ljeto2024!","P@ssw0rd","plava-bicikla-skace-preko-rijeke","Ivan1985"],
   a:2, e:"Duljina je najvažnija. Duga fraza od više nepovezanih riječi puno je teža za probijanje od kratke lozinke s pokojim znakom, a lakše se pamti."},
+ {t:"Phishing", q:"Shvatili ste da ste upravo upisali lozinku na lažnoj stranici. Što prvo učiniti?",
+  o:["Ništa, ako se ništa čudno ne dogodi","Odmah promijeniti lozinku na pravoj stranici i uključiti 2FA","Obrisati povijest preglednika"],
+  a:1, e:"Promijenite lozinku odmah, i na svim drugim računima gdje ste koristili istu. Uključite 2FA i pratite obavijesti o prijavama. Ako se radi o banci, nazovite banku."},
+ {t:"Kibernetička sigurnost", q:"Spojeni ste na besplatni Wi-Fi u kafiću. Što je najbolje izbjegavati?",
+  o:["Čitanje vijesti","Prijavu u internetsko bankarstvo i upisivanje podataka s kartice","Gledanje vremenske prognoze"],
+  a:1, e:"Na otvorenoj javnoj mreži netko može pratiti promet ili podmetnuti lažnu mrežu sličnog imena. Za bankarstvo i plaćanja koristite mobilne podatke ili VPN."},
  {t:"Kibernetička sigurnost", q:"Zašto je važno redovito instalirati ažuriranja na mobitelu i računalu?",
   o:["Samo zbog novog izgleda i funkcija","Ažuriranja ispravljaju sigurnosne propuste koje napadači koriste","Ažuriranja usporavaju uređaj pa ih je bolje preskočiti"],
   a:1, e:"Velik dio napada koristi već poznate propuste za koje postoje zakrpe. Uključite automatska ažuriranja kad god je moguće."}
@@ -144,11 +150,11 @@ let i=-1, answers=[];
 const card=document.getElementById('card'), bar=document.getElementById('bar'), count=document.getElementById('count');
 
 function intro(){
-  i=-1; answers=[]; bar.style.width='0'; count.textContent='10 pitanja';
+  i=-1; answers=[]; bar.style.width='0'; count.textContent=Q.length+' pitanja';
   card.innerHTML=`
     <span class="tag">Provjerite znanje</span>
     <h1>Prepoznajete li <span>prijevaru</span> na vrijeme?</h1>
-    <p class="lead">Deset kratkih pitanja o temama iz prezentacije. Nakon svakog odgovora vidjet ćete točan odgovor i kratko objašnjenje.</p>
+    <p class="lead">Dvanaest kratkih pitanja o temama iz prezentacije. Nakon svakog odgovora vidjet ćete točan odgovor i kratko objašnjenje.</p>
     <ul class="topics"><li>Phishing</li><li>Smishing</li><li>2FA</li><li>Password keeperi</li><li>Kibernetička sigurnost</li></ul>
     <button class="btn" id="start">Započni kviz</button>`;
   document.getElementById('start').onclick=()=>{i=0;show();};
@@ -183,7 +189,7 @@ function pick(k){
 function result(){
   const n=answers.filter((a,k)=>a===Q[k].a).length;
   count.textContent='Rezultat'; bar.style.width='100%';
-  const msg = n===10?'Odlično! Prevaranti kod vas nemaju šanse.' : n>=8?'Vrlo dobro! Još malo i znate sve.' : n>=5?'Dobra osnova. Pogledajte pitanja koja ste promašili.' : 'Ovo je dobar trenutak da ponovite gradivo s prezentacije.';
+  const msg = n===Q.length?'Odlično! Prevaranti kod vas nemaju šanse.' : n>=Q.length-2?'Vrlo dobro! Još malo i znate sve.' : n>=Math.ceil(Q.length/2)?'Dobra osnova. Pogledajte pitanja koja ste promašili.' : 'Ovo je dobar trenutak da ponovite gradivo s prezentacije.';
   card.innerHTML=`
     <span class="tag">Vaš rezultat</span>
     <div class="score"><b>${n}</b><span>/ ${Q.length} točnih</span></div>
